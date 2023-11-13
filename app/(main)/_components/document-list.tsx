@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Item } from "./item";
-import exp from "constants";
 import { cn } from "@/lib/utils";
 import { FileIcon } from "lucide-react";
 
@@ -19,11 +18,11 @@ interface DocumentListProps {
 const DocumentList: React.FC<DocumentListProps> = ({
   parentDocumentId,
   level = 0,
-  data,
 }) => {
   const params = useParams();
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
   const onExpand = (documentId: string) => {
     setExpanded((prevExpanded) => ({
       ...prevExpanded,
@@ -43,7 +42,12 @@ const DocumentList: React.FC<DocumentListProps> = ({
     return (
       <>
         <Item.Skeleton level={level} />
-        <Item.Skeleton level={level} />
+        {level === 0 && (
+          <>
+            <Item.Skeleton level={level} />
+            <Item.Skeleton level={level} />
+          </>
+        )}
       </>
     );
   }
@@ -73,6 +77,12 @@ const DocumentList: React.FC<DocumentListProps> = ({
             onExpand={() => onExpand(document._id)}
             expanded={expanded[document._id]}
           />
+          {expanded[document._id] && (
+            <DocumentList
+              parentDocumentId={document._id}
+              level={level + 1}
+            />
+          )}
         </div>
       ))}
     </>
