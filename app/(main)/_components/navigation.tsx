@@ -15,7 +15,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
 import { toast } from "sonner";
-
+import { useSearch } from "@/hooks/use-search";
 import { cn } from "@/lib/utils";
 import UserItem from "./user-item";
 import DocumentList from "./document-list";
@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/popover";
 import { Item } from "./item";
 import TrashBox from "./trash-box";
+import { useSettings } from "@/hooks/use-settings";
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -37,6 +38,9 @@ const Navigation = () => {
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
+
+  const search = useSearch();
+  const settings = useSettings();
 
   useEffect(() => {
     if (isMobile) {
@@ -148,13 +152,13 @@ const Navigation = () => {
         <div>
           <UserItem />
           <Item
-            onClick={handleCreate}
+            onClick={search.onOpen}
             isSearch
             icon={Search}
             label="Search"
           />
           <Item
-            onClick={handleCreate}
+            onClick={settings.onOpen}
             label="Settings"
             icon={Settings}
           />
