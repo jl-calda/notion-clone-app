@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
@@ -11,7 +12,7 @@ interface TitleProps {
   initialData: Doc<"documents">;
 }
 
-const Title: React.FC<TitleProps> = ({ initialData }) => {
+export const Title = ({ initialData }: TitleProps) => {
   const [title, setTitle] = useState(initialData.title || "Untitled");
   const inputRef = useRef<HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -53,6 +54,7 @@ const Title: React.FC<TitleProps> = ({ initialData }) => {
           onBlur={disableInput}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          value={title}
           className="h-7 px-2 focus-visible:ring-transparent"
         />
       ) : (
@@ -69,4 +71,6 @@ const Title: React.FC<TitleProps> = ({ initialData }) => {
   );
 };
 
-export default Title;
+Title.Skeleton = function TitleSkeleton() {
+  return <Skeleton className="h-9 w-1" />;
+};
