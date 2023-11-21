@@ -64,6 +64,7 @@ export const Item = ({
       success: "Note moved to archive!",
       error: "Failed to archive note",
     });
+    router.push("/documents");
   };
 
   const router = useRouter();
@@ -113,9 +114,9 @@ export const Item = ({
         </div>
       )}
       {documentIcon ? (
-        <div className="shrink-0 h-[18px] mr-2">{documentIcon}</div>
+        <div className="shrink-0 h-[18px] w-[18px] mr-2">{documentIcon}</div>
       ) : (
-        <Icon className="shrink-0 h-[18px] mr-2 text-muted-foreground" />
+        <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground" />
       )}
       <span className="truncate">{label}</span>
       {isSearch && (

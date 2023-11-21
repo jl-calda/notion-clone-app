@@ -9,6 +9,8 @@ import { Title } from "./title";
 import { Item } from "./item";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Banner } from "./banner";
+import { Menu } from "./menu";
+import { Publish } from "./publish";
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -21,16 +23,19 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, onResetWidth }) => {
     documentId: params.documentId as Id<"documents">,
   });
 
-  if (!document) {
+  if (document === undefined) {
     return (
-      <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center">
-        <Skeleton className="h-9 w-20 rounded-md" />
+      <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between ">
+        <Title.Skeleton />
+        <div className="flex items-center gap-x-2">
+          <Menu.Skeleton />
+        </div>
       </nav>
     );
   }
 
   if (document === null) {
-    return <p>Document not found</p>;
+    return null;
   }
 
   return (
@@ -45,7 +50,10 @@ const Navbar: React.FC<NavbarProps> = ({ isCollapsed, onResetWidth }) => {
         )}
         <div className="flex items-center justify-between w-full">
           <Title initialData={document} />
-          <div></div>
+          <div className="flex items-center gap-x-2">
+            <Publish initialData={document} />
+            <Menu documentId={document._id} />
+          </div>
         </div>
       </nav>
       {document.isArchived && <Banner documentId={document._id} />}
